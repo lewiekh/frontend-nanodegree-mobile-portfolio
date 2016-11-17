@@ -448,11 +448,12 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
+  var randoms = document.getElementsByClassName("randomPizzaContainer");
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[i], size);
-      var newwidth = (document.getElementsByClassName("randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+    for (var i = 0; i < randoms.length; i++) {
+      var dx = determineDx(randoms[i], size);
+      var newwidth = (randoms[i].offsetWidth + dx) + 'px';
+      randoms[i].style.width = newwidth;
     }
   }
 
@@ -501,7 +502,7 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.getElementsByClassName('mover');
+var items = document.getElementsByClassName('mover');
 var move = 0
 function moves() {
   move++
@@ -512,8 +513,12 @@ function moves() {
 var scrolling = document.body.scrollTop;
 var phase = [];
   for (var i = 0; i < items.length; i++) {
-     phase = Math.sin((scrolling / 1000) + move);
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    phase = Math.sin((scrolling / 1000) + move);
+     var trans = items[i].basicLeft + 100 * phase + 'px';
+     items[i].style.transform = 'translateX(' + trans + ')';
+// console.log('translateX('+trans+')');
+ // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+// console.log(items[i].basicLeft + 100 * phase + 'px');
     moves();
   };
   // User Timing API to the rescue again. Seriously, it's worth learning.
