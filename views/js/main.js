@@ -418,47 +418,29 @@ var resizePizzas = function(size) {
         console.log("bug in changeSliderLabel");
     }
   }
-
   changeSliderLabel(size);
-
-   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
-
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newSize = sizeSwitcher(size);
-    var dx = (newSize - oldSize) * windowWidth;
-
-    return dx;
-  }
-
-  // Iterates through pizza elements on the page and changes their widths
-  var randoms = document.getElementsByClassName("randomPizzaContainer");
   function changePizzaSizes(size) {
-    for (var i = 0; i < randoms.length; i++) {
-      var dx = determineDx(randoms[i], size);
-      var newwidth = (randoms[i].offsetWidth + dx) + 'px';
-      randoms[i].style.width = newwidth;
+    var newWidth;
+
+    switch(size) {
+      case "1":
+        newWidth = 25;
+        break;
+      case "2":
+        newWidth = 33.3;
+        break;
+      case "3":
+        newWidth = 50;
+        break;
+      default:
+        console.log("bug in sizeSwitcher");
     }
-  }
-
+    var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
+    for (var i = 0; i < randomPizzas.length; i++) {
+      randomPizzas[i].style.width = newWidth + '%';
+    }
+  };
   changePizzaSizes(size);
-
   // User Timing API is awesome
   window.performance.mark("mark_end_resize");
   window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
@@ -501,7 +483,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
+var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
 var items = document.getElementsByClassName('mover');
 var move = 0
 function moves() {
@@ -514,11 +496,9 @@ var scrolling = document.body.scrollTop;
 var phase = [];
   for (var i = 0; i < items.length; i++) {
     phase = Math.sin((scrolling / 1000) + move);
-     var trans = items[i].basicLeft + 100 * phase + 'px';
+     var trans = items[i].basicLeft + 100 * phase - halfScreenWidth + 'px';
      items[i].style.transform = 'translateX(' + trans + ')';
 // console.log('translateX('+trans+')');
- // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-// console.log(items[i].basicLeft + 100 * phase + 'px');
     moves();
   };
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -538,7 +518,7 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 25; i++) {
+  for (var i = 0; i < 30; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
