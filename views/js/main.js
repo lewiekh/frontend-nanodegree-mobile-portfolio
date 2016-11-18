@@ -419,7 +419,7 @@ var resizePizzas = function(size) {
     }
   }
   changeSliderLabel(size);
-  function changePizzaSizes(size) {
+  function changePizzaSizes(size) { //changed the function to be more efficient and to pick betweent 3 different sizes instead calcualtions 
     var newWidth;
 
     switch(size) {
@@ -435,9 +435,10 @@ var resizePizzas = function(size) {
       default:
         console.log("bug in sizeSwitcher");
     }
-    var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
-    for (var i = 0; i < randomPizzas.length; i++) {
-      randomPizzas[i].style.width = newWidth + '%';
+
+    var randoms = document.getElementsByClassName("randomPizzaContainer"); //changed to getElementsByClassName and removed from the for loop placed in a variable
+    for (var i = 0; i < randoms.length; i++) { // removed unnecessary DX and newWidth from the for loop 
+      randoms[i].style.width = newWidth + '%'; // changed the 'px' to '%' 
     }
   };
   changePizzaSizes(size);
@@ -483,21 +484,22 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
-var items = document.getElementsByClassName('mover');
+var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2; //moves the the moving pizzas half a screen to the left to make translatex() work
+var items = document.getElementsByClassName('mover'); // removed from the for loop and changed to getElementsByClassName
 var move = 0
-function moves() {
+function moves() { //created a function to pick between 5 numbers instead of calcuation in the for loop
   move++
   if (move > 4) {
     move = 0
   };
 };
-var scrolling = document.body.scrollTop;
-var phase = [];
+var scrolling = document.body.scrollTop; // removed from the for loop and placed in a variable 
+var phase = []; // removed from the for loop and created an array to hold the different 
+
   for (var i = 0; i < items.length; i++) {
     phase = Math.sin((scrolling / 1000) + move);
-     var trans = items[i].basicLeft + 100 * phase - halfScreenWidth + 'px';
-     items[i].style.transform = 'translateX(' + trans + ')';
+    var trans = items[i].basicLeft + 100 * phase - halfScreenWidth + 'px'; //calcuation to animate the pizzas correctly on the screen
+    items[i].style.transform = 'translateX(' + trans + ')';
 // console.log('translateX('+trans+')');
     moves();
   };
@@ -518,7 +520,7 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < 40; i++) { //lowered the number of pizzas that get created 
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
