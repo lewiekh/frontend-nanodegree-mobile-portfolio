@@ -29,5 +29,5 @@ Part 2: Optimized Frames per Second in pizza.html
 
 Check out the site and test for your self.
 
-[a link](https://lewiekh.github.io/frontend-nanodegree-mobile-portfolio/)
+[CLICK HERE TO VIST THE WEBSITE](https://lewiekh.github.io/frontend-nanodegree-mobile-portfolio/)
 
